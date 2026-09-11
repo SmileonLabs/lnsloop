@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "LNS Loop",
+    "slug": "lns-loop-patient-mobile",
+    "scheme": "lnsloop",
+    "version": "0.1.0",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "plugins": [
+      "expo-router"
+    ],
+    "extra": {
+      "pulseMotionMode": "full"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.lnsloop.patient"
+    },
+    "android": {
+      "package": "com.lnsloop.patient",
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
