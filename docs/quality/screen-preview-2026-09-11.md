@@ -18,3 +18,12 @@ Google 버튼은 홈으로 이동한다. 탭 전환, 연구 안내 순서, 포�
 ## 그래픽
 
 `apps/patient-mobile/assets/brand/loop.png`: 내장 imagegen 도구 사용. 프롬프트 요약: "Single brushed-silver Mobius ribbon, pale mint inner surface, three-quarter view, #181C20 background, restrained studio lighting, no text." 승인된 시안을 참고해 생성했다. 아이콘과 세포 장식은 React Native 도형이다.
+
+## 후속 인터랙션 보완
+
+- 홈·포인트에서 출석 체크 가능. 완료 표시와 주간 표시가 함께 바뀌며 같은 세션에서 중복 클릭을 막는다.
+- 동의 항목 선택/해제 및 필수 항목에 따른 다음 버튼 활성화. 의료기록 제공은 선택 항목이다.
+- 적합성 질문 단일 선택, 전체 응답 후 데모 완료 안내. 실제 적합 여부를 판정하지 않는다.
+- 홈의 주간 설문 진입, 질문별 단일 선택, 답변 확인 체크박스, 완료·답변 보기·수정 제공.
+- 상태는 메모리에만 유지되며 새로고침하면 초기화된다. 출석·설문으로 포인트를 실제 지급하지 않는다.
+- 타입 검사 및 브라우저에서 출석 완료/중복 방지, 미응답 설문 버튼 비활성화, 응답 후 완료 표시 확인.
