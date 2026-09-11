@@ -1,5 +1,7 @@
 # L2N Codex 단계별 개발 계획
 
+> 참고: 이 문서는 과거의 확장 기획입니다. 현재 제품 범위는 [2026-09-11 LNS Loop 제품 기준안](../docs/product/lns-loop-product-brief.md)을 먼저 참고하세요. 아래의 코드 없는 신규 프로젝트 전제 및 RWA·투자 기능은 현재 상태 또는 첫 UC MVP의 요구사항을 뜻하지 않습니다.
+
 ## 1. 계획의 전제
 
 - 기준 자료: `plan/user`, `plan/hospital`, `plan/rnd`, `plan/rwa`의 화면 기획서 32장

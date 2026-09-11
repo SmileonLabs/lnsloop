@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 
-import { PulseApp } from '../src/features/pulse/PulseApp';
+import { LoopPreview } from '../src/features/preview/LoopPreview';
 
 export default function IndexScreen() {
   return (
     <>
       <StatusBar style="light" />
-      <PulseApp />
+      <LoopPreview />
     </>
   );
 }

@@ -1,5 +1,7 @@
 # LNS Pulse Motion Specification
 
+> Product scope note (2026-09-11): Read the [LNS Loop product brief](lns-loop-product-brief.md) first for current product scope. This document specifies the Pulse PoC; its 72-hour flow and example rewards do not define the 12-week UC study protocol.
+
 - Status: implementation-ready v1.0
 - Scope: patient mobile app, `Change detected` → `72-hour Pulse` → `Change capsule`
 - Reference: `design/lns-loop-pulse-concept-v3.png`
