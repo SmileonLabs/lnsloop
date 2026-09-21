@@ -9,22 +9,22 @@ export const health: HealthDataProvider = {
   changesToken: async (types) =>
     nativeHealth ? nativeHealth.getChangesToken(types) : null,
   changes: async (token) => {
-    if (!nativeHealth) throw new Error("Health Connect unavailable");
+    if (!nativeHealth) throw new Error("Native health integration unavailable");
     return nativeHealth.readChanges(token);
   },
   availability: async () =>
     nativeHealth
       ? nativeHealth.availability()
-      : { available: false, reason: "Android Health Connect required" },
+      : { available: false, reason: "A native Android or iPhone build is required" },
   permissions: async (types) =>
     nativeHealth ? nativeHealth.permissions(types) : [],
   requestPermissions: async (types) => {
-    if (!nativeHealth) throw new Error("Health Connect unavailable");
+    if (!nativeHealth) throw new Error("Native health integration unavailable");
     await nativeHealth.requestPermissions(types);
     return nativeHealth.permissions(types);
   },
   read: async (types, start, end) => {
-    if (!nativeHealth) throw new Error("Health Connect unavailable");
+    if (!nativeHealth) throw new Error("Native health integration unavailable");
     return ((await nativeHealth.read(types, start, end)) as HealthRecord[]).map(
       (r) => ({
         ...r,
@@ -39,7 +39,7 @@ export const health: HealthDataProvider = {
     if (nativeHealth) await nativeHealth.openSettings();
   },
 };
-// Large health payloads are encrypted in app-private Android storage, not AsyncStorage.
+// Large health payloads use encrypted native private storage, not AsyncStorage.
 export async function readPrivate(key: string) {
   return nativeHealth
     ? JSON.parse((await nativeHealth.readPrivate(key)) || "null")

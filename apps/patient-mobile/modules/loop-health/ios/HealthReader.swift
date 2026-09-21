@@ -77,6 +77,8 @@ final class HealthReader {
         guard let systolic=bp.objects(for:HKQuantityType.quantityType(forIdentifier:.bloodPressureSystolic)!).first as? HKQuantitySample,let diastolic=bp.objects(for:HKQuantityType.quantityType(forIdentifier:.bloodPressureDiastolic)!).first as? HKQuantitySample else{continue}
         row["unit"]="mmHg";row["value"]=["systolic":systolic.quantity.doubleValue(for:.millimeterOfMercury()),"diastolic":diastolic.quantity.doubleValue(for:.millimeterOfMercury())]
       }else if let q=sample as? HKQuantitySample,name=="nutrition",let nutrient=nutrients.first(where:{$0.0.rawValue==q.quantityType.identifier}){
+        // Never assign the full cumulative intake to a clipped consent window.
+        if clipStart != sample.startDate || clipEnd != sample.endDate {continue}
         var values:[String:Any]=["energyKcal":NSNull(),"proteinGrams":NSNull(),"carbohydrateGrams":NSNull(),"fatGrams":NSNull()];values[nutrient.2]=q.quantity.doubleValue(for:nutrient.1);row["unit"]="mixed";row["value"]=values
       }else{continue}
       output.append(row)

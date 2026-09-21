@@ -87,7 +87,7 @@ export function ConnectionScreen() {
                 })
               }
             />
-            {!available && nativeHealth && (
+            {!available && nativeHealth && Platform.OS === "android" && (
               <Button
                 secondary
                 title={
@@ -98,7 +98,7 @@ export function ConnectionScreen() {
                 onPress={() => void task.run(() => nativeHealth.install())}
               />
             )}
-            {available && study.config.periodDays >= 30 && nativeHealth && (
+            {available && Platform.OS === "android" && study.config.periodDays >= 30 && nativeHealth && (
               <Button
                 secondary
                 title={

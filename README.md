@@ -57,9 +57,9 @@ cd apps/patient-mobile/android
 ./gradlew :app:assembleDebug -PreactNativeArchitectures=arm64-v8a
 ```
 
-On Windows use `gradlew.bat` and set ANDROID_HOME to the SDK location. Minimum Android API is 28. The workspace uses hoisted dependencies and shortened CMake output paths to avoid Windows path limits. APK output: `apps/patient-mobile/android/app/build/outputs/apk/debug/app-debug.apk`. Debug builds require the Metro server.
+On Windows use `gradlew.bat` and set ANDROID_HOME to the SDK location. Minimum Android API is 28. The workspace uses hoisted dependencies and shortened CMake output paths to avoid Windows path limits. APK output: `apps/patient-mobile/android/app/build/outputs/apk/debug/app-debug.apk`. Debug builds require the Metro server. For an x86_64 emulator build with `-PreactNativeArchitectures=arm64-v8a,x86_64`; use `adb reverse tcp:8081 tcp:8081` when connecting Metro over ADB.
 
-iPhone, on macOS with Xcode and CocoaPods:
+iPhone, on macOS with Xcode 26.3 (Swift 6.2 or later) and CocoaPods:
 
 ```sh
 pnpm --filter lns-loop-patient-mobile exec expo prebuild --platform ios

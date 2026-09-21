@@ -20,6 +20,7 @@ apps/patient-mobile/modules/loop-health/android/.cxx/
 !apps/patient-mobile/modules/loop-health/ios/**
 .local/
 .native-build/
+.patch-work/
 test-results/
 playwright-report/
 
