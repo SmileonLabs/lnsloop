@@ -40,7 +40,7 @@ Only a study's listed types and valid period are transmitted. No health-data wri
 - Production domain, hosting region, database credentials and encryption-key management/rotation.
 - Real research documents, recipients, inclusion criteria, reward amounts, ethics approval and store health declarations.
 - Final terms/privacy URL and support contact.
-- Apple signing team/provisioning and Xcode native validation.
+- Apple signing team/provisioning for physical devices and distribution.
 
 Missing configuration is not replaced by a production mock. Test authentication requires explicit server and app configuration and is refused by the production server. `test-server.ts` is a separate, localhost-only, volatile synthetic-data server.
 
@@ -48,6 +48,22 @@ Missing configuration is not replaced by a production mock. Test authentication 
 
 Verified locally: SQL integration tests using PGlite/PostgreSQL semantics; concurrent retries, access control, scope validation, corrections, consent versions, points adjustments, withdrawal, deletion retention and export expiry. Playwright exercises operator study creation/publication/review and mobile-web participation/survey/points. TypeScript and web/iOS JavaScript exports are checked. Android arm64 debug APK compiled successfully, including the Kotlin module.
 
-Not equivalent to completed device verification: PGlite tests are not a deployed PostgreSQL performance test; browser tests do not exercise Health Connect or HealthKit sensors. Physical Android/iPhone permission prompts, background behavior, TalkBack/VoiceOver and real Google sign-in remain dependent on devices/credentials. Windows cannot generate/build the iOS native project. A manual GitHub Actions macOS validation workflow is included. Native Apple compilation is not inferred from a successful JavaScript export.
+2026-09-22 Android emulator check (API 36.1, x86_64): universal debug APK
+installed and launched; explicit test login and research API worked; the native
+Health Connect permission dialog requested only the test study's steps scope;
+granting it updated the connection state. Empty records showed the no-data
+explanation and disabled submission. No personal health records were used.
+Android CI also compiled commit `689bfc3` successfully. The permission contract
+was corrected to use ActivityResultRegistry (required on Android 14+) and the
+subsequent local APK was rebuilt and exercised.
+
+Native CI run [35619445006](https://github.com/SmileonLabs/lnsloop/actions/runs/35619445006)
+passed for both platforms at commit `689bfc3`: Android arm64 debug APK and
+iOS Simulator Debug app built with Xcode 26.3, including the local Kotlin/Swift
+health modules. iOS compilation required the exact-version Expo JSI compatibility
+patch documented in `patches/README.md`. This is an unsigned simulator build,
+not a signed iPhone distribution or an on-device HealthKit test.
+
+Not equivalent to completed device verification: PGlite tests are not a deployed PostgreSQL performance test; browser tests do not exercise Health Connect or HealthKit sensors. Physical Android/iPhone permission prompts, background behavior, TalkBack/VoiceOver and real Google sign-in remain dependent on devices/credentials. Windows cannot generate/build the iOS native project; the successful Apple native compilation was performed by the GitHub Actions macOS workflow, not inferred from a JavaScript export.
 
 Security-sensitive follow-up before deployment: establish backup/recovery and key rotation, approved consent/retention documents and monitoring without health payload logging. Health-data collection in production remains subject to the platform policies and approved research configuration discussed with the user.

@@ -59,6 +59,10 @@ cd apps/patient-mobile/android
 
 On Windows use `gradlew.bat` and set ANDROID_HOME to the SDK location. Minimum Android API is 28. The workspace uses hoisted dependencies and shortened CMake output paths to avoid Windows path limits. APK output: `apps/patient-mobile/android/app/build/outputs/apk/debug/app-debug.apk`. Debug builds require the Metro server. For an x86_64 emulator build with `-PreactNativeArchitectures=arm64-v8a,x86_64`; use `adb reverse tcp:8081 tcp:8081` when connecting Metro over ADB.
 
+If Windows resolves `localhost` to IPv6 only, start Expo with `--host lan`
+and verify `http://127.0.0.1:8081/status` is reachable before launching the APK.
+Use this only on a trusted development network.
+
 iPhone, on macOS with Xcode 26.3 (Swift 6.2 or later) and CocoaPods:
 
 ```sh
