@@ -4,6 +4,8 @@ on:
 jobs:
   ios:
     runs-on: macos-15
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.3.app/Contents/Developer
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -34,6 +36,8 @@ jobs:
           distribution: temurin
           java-version: 17
       - uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter lns-loop-patient-mobile exec expo prebuild --platform android --no-install
       - run: ./gradlew :app:assembleDebug --no-daemon -PreactNativeArchitectures=arm64-v8a

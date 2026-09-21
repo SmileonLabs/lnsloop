@@ -4,6 +4,7 @@ module.exports = () => ({
   plugins: base.plugins
     .filter((p) => p !== "@react-native-google-signin/google-signin")
     .concat([
+      "./plugins/withDebugHost",
       "./plugins/withHealthKit",
       [
         "@react-native-google-signin/google-signin",
