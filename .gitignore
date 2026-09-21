@@ -11,6 +11,17 @@
 **/web-build/
 **/ios/
 **/android/
+!apps/patient-mobile/modules/loop-health/android/
+!apps/patient-mobile/modules/loop-health/android/**
+apps/patient-mobile/modules/loop-health/android/build/
+apps/patient-mobile/modules/loop-health/android/.gradle/
+apps/patient-mobile/modules/loop-health/android/.cxx/
+!apps/patient-mobile/modules/loop-health/ios/
+!apps/patient-mobile/modules/loop-health/ios/**
+.local/
+.native-build/
+test-results/
+playwright-report/
 
 # Local configuration and logs
 .env

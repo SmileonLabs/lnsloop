@@ -1,0 +1,17 @@
+{
+  "name": "lns-loop",
+  "private": true,
+  "packageManager": "pnpm@11.19.0",
+  "scripts": {
+    "dev:api": "pnpm --filter @loop/api dev",
+    "dev:admin": "pnpm --filter @loop/admin dev",
+    "test": "pnpm --filter @loop/api test",
+    "typecheck": "pnpm -r typecheck",
+    "test:browser": "node scripts/browser-test.mjs",
+    "dev:test-api": "pnpm --filter @loop/api exec tsx src/test-server.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "prettier": "^3.9.8"
+  }
+}

@@ -1,12 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
-
-import { LoopPreview } from '../src/features/preview/LoopPreview';
-
+import { Redirect } from "expo-router";
+import { useSession } from "../src/loop/session";
 export default function IndexScreen() {
-  return (
-    <>
-      <StatusBar style="light" />
-      <LoopPreview />
-    </>
-  );
+  const { ready, token } = useSession();
+  return ready ? <Redirect href={token ? "/(tabs)" : "/login"} /> : null;
 }

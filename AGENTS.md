@@ -1,5 +1,13 @@
 # 프로젝트 작업 안내
 
+## 2026-09-21 후속 지시 (아래 과거 범위보다 우선)
+
+- 글로벌 연구별 참여·동의와 건강데이터 제공에 대한 포인트 앱이다. 호주·UC·100명·12주는 운영 기본값이 아니다.
+- Android Health Connect 구현 후 iPhone HealthKit을 구현하며, 앱·서버·관리자 웹을 실제 API와 연결한다.
+- 신규 Fastify/PostgreSQL/Drizzle 서버, 한국어·영어, 원터치 제출 기본, 연구별 선택적 자동 제공, 포인트·내역·랭킹이 현재 범위다.
+- Google OAuth 계정·배포 도메인 연결은 사용자가 나중으로 미뤘다. 가짜 운영 인증으로 대체하지 않는다.
+- 최신 실행·검증·외부 설정 현황은 `docs/implementation/service.md`와 루트 README를 따른다.
+
 제품 관련 작업 전에 `docs/product/lns-loop-product-brief.md`와 후속 지시를 반영한 `docs/product/lns-loop-mvp-features.md`를 읽는다. 사용자 제공 원문은 `docs/reference/2026-09-11-smileon-labs-original.txt`에 있다.
 
 - 새 제품 방향은 호주 멜버른 성인 UC 100명·12주 비중재 관찰 연구, iOS/Android·영어 우선이다.

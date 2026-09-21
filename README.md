@@ -1,46 +1,84 @@
 # LNS Loop
 
-“작은 기록이 더 나은 연구로 이어져요.”
+Consent-based health research participation, Health Connect / HealthKit contributions, and server-verified points. Android and iPhone share the approved charcoal/mint mobile UI. A Fastify/PostgreSQL API and React operations console are included.
 
-호주 멜버른의 성인 궤양성 대장염(UC) 참여자 100명을 대상으로, 기존 병원기록과 12주 일상 기록을 연결하는 비중재 관찰 연구를 첫 제품 방향으로 삼습니다. 현재 코드는 **LNS Loop 화면·인터랙션 프로토타입**이며 실제 인증·연구 운영·의료정보 연동·포인트 지급 기능은 연결하지 않았습니다. 기존 Pulse 모션 PoC는 참고용으로 보관합니다.
+## Workspace
 
-현재 초기 앱 방향은 **Google 로그인 → 연구 참여·기록 → 포인트 적립**입니다. 소개 온보딩과 지갑은 뒤로 미루고, 현재는 포인트 적립·내역을 제공합니다. [초기 앱 기능 정리](docs/product/lns-loop-mvp-features.md)를 먼저 참고하세요. 화면 이동·출석·설문 선택은 데모로 구현되어 있으며 실제 서비스 기능은 기획 단계입니다.
+- `apps/patient-mobile`: Expo/React Native application and local Kotlin/Swift health module.
+- `apps/api`: authentication, research versions, consent, submissions, encrypted records, points and exports.
+- `apps/admin`: research and participant operations.
+- `packages/contracts`: shared data validation and interfaces.
 
-## 디자인 시스템
+Node 24 and pnpm 11.19.0 are recommended. Install from this repository root:
 
-[현재 디자인 시스템 v1.0](design/system/README.md): 승인 시안, 색상·타이포·간격, 버튼·설문·출석 카드, 화면 구성과 확장 규칙. 신규 UI 작업의 기준입니다.
-
-## 먼저 읽을 문서
-
-1. [제품 기준안 — 2026-09-11](docs/product/lns-loop-product-brief.md): 제품 범위, 연구 흐름, 보상 가설, 데이터 원칙, 브랜드, 로드맵, KPI, 미확정 사항
-2. [SmileOn Labs 제공 원문](docs/reference/2026-09-11-smileon-labs-original.txt): 전달받은 내용을 그대로 보관
-3. [Joined Bio 분석 및 적용 메모](docs/research/joined-bio-review.md): 공개 서비스·동의·보상·운영 구조와 LNS Loop 참고 제안
-4. [Joined Bio 조사 출처 목록](docs/research/joined-bio-source-map.md): 서비스·정책 문서와 자료실 게시물 30건
-5. [모바일 앱 실행 안내](apps/patient-mobile/README.md): 현재 PoC 기능과 실행·검증 명령
-
-## 저장소 구조
-
-| 위치 | 내용 |
-| --- | --- |
-| `apps/patient-mobile/` | Expo/React Native 모바일 PoC |
-| `docs/product/` | 최신 제품 기준안과 기존 Pulse 모션 명세 |
-| `docs/research/` | 외부 서비스 조사와 적용 메모 |
-| `docs/reference/` | 사용자 제공 원문 |
-| `docs/architecture/` | 기술 결정 기록 |
-| `docs/quality/` | 기존 PoC QA 자료 |
-| `design/` | 디자인 참고 자료 |
-| `plan/` | 과거 개발 계획과 역할별 화면 기획 자료 |
-
-기존 자료와 2026-09-11 제품 기준안의 범위가 다르면 새 제품 기준안을 먼저 참고합니다. 기존 Pulse 72시간 흐름과 예시 보상을 12주 UC 연구의 확정 규칙으로 해석하지 않습니다.
-
-## 모바일 PoC 실행
-
-앱 README에 명시된 Node.js `20.19.4+`, pnpm `11.x` 환경에서:
-
-```bash
-cd apps/patient-mobile
-pnpm install
-pnpm start
+```sh
+pnpm install --frozen-lockfile
+pnpm typecheck
+pnpm test
 ```
 
-플랫폼별 실행 및 검증은 [앱 README](apps/patient-mobile/README.md)를 참고하세요.
+## Local synthetic-data verification
+
+No OAuth account or Docker is required for the isolated test server:
+
+```sh
+pnpm dev:test-api
+pnpm dev:admin
+```
+
+The API runs at localhost:4000 and admin at localhost:5173. Use the explicitly labeled development operator login. Create and publish a **test-only** study before testing participant flows. The test database and encryption key are ephemeral: restarting clears data. Never use real health records with this test server.
+
+For the mobile app, copy its `.env.example` to `.env`, choose the API URL and enable `EXPO_PUBLIC_ENABLE_TEST_AUTH=true` only for this test environment. Android Emulator can access the host API at `http://10.0.2.2:4000`. For browser testing use `http://localhost:4000` and allow that browser origin in the API configuration.
+
+```sh
+pnpm --filter lns-loop-patient-mobile start
+```
+
+Health APIs require a native build, not Expo Go. Web views do not fabricate sensor data.
+
+## PostgreSQL and Google sign-in
+
+1. Copy root `.env.example` to `.env` and set the local PostgreSQL password.
+2. Run `docker compose up -d db`.
+3. Copy `apps/api/.env.example` to `apps/api/.env`; set DATABASE_URL and a base64 32-byte DATA_KEY. Generate the key locally with a cryptographically secure generator and retain it securely; changing it makes existing encrypted records unreadable.
+4. Configure GOOGLE_CLIENT_IDS, ADMIN_GOOGLE_SUBJECTS and ADMIN_ORIGIN. Google subjects identify approved operators; client requests cannot grant roles.
+5. Run `pnpm dev:api`. Database tables are initialized transactionally. API documentation: `http://localhost:4000/openapi.json`.
+6. Set the mobile and admin OAuth client IDs in their respective environment files. Register the Android package/signing fingerprints and iOS reversed-client-ID URL scheme in Google Cloud.
+
+OAuth registrations and production hosting were explicitly deferred by the user. Production refuses test auth; absent OAuth configuration returns a setup-pending error.
+
+## Native builds
+
+Android (JDK 17 and Android SDK required):
+
+```sh
+pnpm --filter lns-loop-patient-mobile exec expo prebuild --platform android --no-install
+cd apps/patient-mobile/android
+./gradlew :app:assembleDebug -PreactNativeArchitectures=arm64-v8a
+```
+
+On Windows use `gradlew.bat` and set ANDROID_HOME to the SDK location. Minimum Android API is 28. The workspace uses hoisted dependencies and shortened CMake output paths to avoid Windows path limits. APK output: `apps/patient-mobile/android/app/build/outputs/apk/debug/app-debug.apk`. Debug builds require the Metro server.
+
+iPhone, on macOS with Xcode and CocoaPods:
+
+```sh
+pnpm --filter lns-loop-patient-mobile exec expo prebuild --platform ios
+pnpm --filter lns-loop-patient-mobile ios
+```
+
+Enable HealthKit capabilities for the app identifier and configure Apple signing for devices. Without Google configuration the reserved placeholder URL scheme is present only to allow project configuration; the login UI remains disabled by its configuration check. A manually triggered **Native validation** GitHub workflow builds Android and the iOS simulator without production credentials.
+
+## Tests and operational notes
+
+```sh
+pnpm test
+pnpm exec playwright install chromium
+pnpm test:browser
+pnpm --filter @loop/admin build
+pnpm --filter lns-loop-patient-mobile export:web
+pnpm --filter lns-loop-patient-mobile exec expo export --platform ios
+```
+
+Browser tests build an explicit test-mode web bundle. Re-export without test environment variables before publishing any web artifact. Neither browser tests nor iOS JavaScript exports prove physical HealthKit behavior.
+
+See [implementation, platform differences and remaining configuration](docs/implementation/service.md). Older product documents describe historical proposals; the running service does not hardcode the Melbourne/UC research plan. No deployment or store publication is performed by these commands.

@@ -1,0 +1,1 @@
+{"name":"@loop/admin","private":true,"type":"module","scripts":{"dev":"vite --host 127.0.0.1","build":"tsc --noEmit && vite build","typecheck":"tsc --noEmit"},"dependencies":{"@loop/contracts":"workspace:*","react":"19.2.3","react-dom":"19.2.3"},"devDependencies":{"vite":"^7.0.0","typescript":"~6.0.3","@types/react":"~19.2.2","@types/react-dom":"^19.2.0"}}

@@ -1,5 +1,9 @@
 # LNS Loop Patient Mobile
 
+## 2026-09-21 실제 앱 구현
+
+현재 진입점은 `src/loop/screens/`의 로그인·4탭·연구·동의·설문·데이터 제공 화면이다. Kotlin Health Connect와 Swift HealthKit 모듈, 서버 인증·포인트 API가 연결되었다. 실행과 검증은 [루트 README](../../README.md), 구현·외부 설정 현황은 [서비스 문서](../../docs/implementation/service.md)를 따른다. 아래는 2026-09-11 프로토타입과 이전 Pulse PoC의 보관 기록이다.
+
 ## 현재 기본 화면 — 2026-09-11
 
 승인된 차콜·민트·실버 시안 기반 화면 프로토타입입니다. `app/index.tsx`는 `src/features/preview/LoopPreview.tsx`를 표시합니다.

@@ -1,0 +1,40 @@
+name: Native validation
+on:
+  workflow_dispatch:
+jobs:
+  ios:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.19.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm -r typecheck
+      - run: pnpm --filter lns-loop-patient-mobile exec expo prebuild --platform ios --no-install
+      - run: pod install
+        working-directory: apps/patient-mobile/ios
+      - run: xcodebuild -workspace LNSLoop.xcworkspace -scheme LNSLoop -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
+        working-directory: apps/patient-mobile/ios
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.19.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: android-actions/setup-android@v3
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter lns-loop-patient-mobile exec expo prebuild --platform android --no-install
+      - run: ./gradlew :app:assembleDebug --no-daemon -PreactNativeArchitectures=arm64-v8a
+        working-directory: apps/patient-mobile/android
